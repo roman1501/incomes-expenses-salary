@@ -1,0 +1,55 @@
+<section class="auth">
+  <div class="auth__card">
+    <header class="auth__header">
+      <h1 class="auth__title">Welcome Back</h1>
+      <p class="auth__subtitle">Log in to track your income, expenses, and salary in one place.</p>
+    </header>
+
+    <form class="auth__form" (submit)="$event.preventDefault(); submit()">
+      <label class="auth__label" for="email">Email address</label>
+      <input
+        id="email"
+        name="email"
+        type="email"
+        class="auth__input"
+        placeholder="you@example.com"
+        required
+      />
+
+      <label class="auth__label" for="password">Password</label>
+      <div class="auth__password">
+        <input
+          id="password"
+          name="password"
+          [type]="showPassword ? 'text' : 'password'"
+          class="auth__input"
+          placeholder="Enter your password"
+          required
+        />
+        <button type="button" class="auth__toggle" (click)="togglePasswordVisibility()">
+          {{ showPassword ? 'Hide' : 'Show' }}
+        </button>
+      </div>
+
+      <button class="auth__submit" type="submit">Continue</button>
+
+      <p class="auth__notice" *ngIf="showNotice">
+        Authentication will be available soon. For now, this demo stops at the login screen.
+      </p>
+    </form>
+
+    <footer class="auth__footer">
+      <span>New here?</span>
+      <a routerLink="/register" class="auth__link">Create an account</a>
+    </footer>
+  </div>
+
+  <aside class="auth__info">
+    <h2>Gain insights about your money</h2>
+    <p>
+      Monitor monthly budgets, categorize expenses, and plan for your savings goals. Once your
+      account is set up we will take you straight to your personalized dashboard.
+    </p>
+  </aside>
+</section>
+
