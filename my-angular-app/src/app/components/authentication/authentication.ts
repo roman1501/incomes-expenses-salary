@@ -1,6 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-authentication',
@@ -12,6 +12,11 @@ import { RouterLink } from '@angular/router';
 export class AuthenticationComponent {
   protected showPassword = false;
   protected showNotice = false;
+    private readonly router = inject(Router);
+
+  protected get isRegister(): boolean {
+    return this.router.url.startsWith('/register');
+  }
 
   togglePasswordVisibility(): void {
     this.showPassword = !this.showPassword;

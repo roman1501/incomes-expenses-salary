@@ -1,8 +1,16 @@
 <section class="auth">
   <div class="auth__card">
     <header class="auth__header">
-      <h1 class="auth__title">Welcome Back</h1>
-      <p class="auth__subtitle">Log in to track your income, expenses, and salary in one place.</p>
+      <h1 class="auth__title">
+        {{ isRegister ? 'Create your account' : 'Welcome Back' }}
+      </h1>
+      <p class="auth__subtitle">
+        {{
+          isRegister
+            ? 'Sign up to start tracking your income, expenses, and salary in one place.'
+            : 'Log in to track your income, expenses, and salary in one place.'
+        }}
+      </p>
     </header>
 
     <form class="auth__form" (submit)="$event.preventDefault(); submit()">
@@ -39,8 +47,13 @@
     </form>
 
     <footer class="auth__footer">
-      <span>New here?</span>
-      <a routerLink="/register" class="auth__link">Create an account</a>
+      <span>{{ isRegister ? 'Already have an account?' : 'New here?' }}</span>
+      <a
+        [routerLink]="isRegister ? '/' : '/register'"
+        class="auth__link"
+      >
+        {{ isRegister ? 'Log in' : 'Create an account' }}
+      </a>
     </footer>
   </div>
 
