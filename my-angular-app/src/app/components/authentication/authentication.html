@@ -33,7 +33,8 @@
           [pattern]="namePattern"
         />
         <p class="auth__error" *ngIf="firstName.invalid && firstName.touched">
-          Name must contain at least three letters and mustn't contain numbers or symbols.
+          Name must start with a capital letter, contain at least three letters, and mustn't
+          contain numbers or symbols.
         </p>
 
         <label class="auth__label" for="lastName">Surname</label>
@@ -50,7 +51,8 @@
           [pattern]="namePattern"
         />
         <p class="auth__error" *ngIf="lastName.invalid && lastName.touched">
-          Surname must contain at least three letters and mustn't contain numbers or symbols.
+          Surname must start with a capital letter, contain at least three letters, and mustn't
+          contain numbers or symbols.
         </p>
       </ng-container>
 
@@ -63,8 +65,14 @@
         placeholder="you@example.com"
         required
         autocomplete="email"
+        email
         ngModel
+        #email="ngModel"
       />
+            <p class="auth__error" *ngIf="email?.invalid && email?.touched">
+        Enter a valid email address like name@example.com.
+      </p>
+
 
       <label class="auth__label" for="password">Password</label>
       <div class="auth__password">
@@ -75,15 +83,19 @@
           class="auth__input"
           placeholder="Enter your password"
           required
-          minlength="3"
+          minlength="8"
           autocomplete="new-password"
           ngModel
+          #password="ngModel"
         />
         <button type="button" class="auth__toggle" (click)="togglePasswordVisibility()">
           {{ showPassword ? 'Hide' : 'Show' }}
         </button>
       </div>
-<ng-container *ngIf="isRegister">
+ <p class="auth__error" *ngIf="password?.errors?.['minlength'] && password?.touched">
+        Password must be at least 8 characters long.
+      </p>
+      <ng-container *ngIf="isRegister">
         <label class="auth__label" for="confirmPassword">Confirm password</label>
         <input
           id="confirmPassword"
@@ -92,11 +104,23 @@
           class="auth__input"
           placeholder="Confirm your password"
           required
-          minlength="3"
+          minlength="8"
           autocomplete="new-password"
           ngModel
+          #confirmPassword="ngModel"
         />
-        <p class="auth__error" *ngIf="passwordMismatch">Passwords must match.</p>
+        <p
+          class="auth__error"
+          *ngIf="confirmPassword?.errors?.['minlength'] && confirmPassword?.touched"
+        >
+          Confirm password must be at least 8 characters long.
+        </p>
+        <p
+          class="auth__error"
+          *ngIf="passwordMismatch && confirmPassword?.touched && !confirmPassword?.errors && !password?.errors"
+        >
+          Passwords must match.
+        </p>
       </ng-container>
 
       <button class="auth__submit" type="submit">Continue</button>

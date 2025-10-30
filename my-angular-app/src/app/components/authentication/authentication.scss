@@ -150,7 +150,10 @@
 }
 
 .auth__info {
-  align-self: center;
+  position: sticky;
+  top: 50%;
+  transform: translateY(-50%);
+  align-self: start;
   display: flex;
   flex-direction: column;
   gap: 1rem;
@@ -178,6 +181,8 @@
   }
 
   .auth__info {
+    position: static;
+    transform: none;
     order: -1;
   }
 }

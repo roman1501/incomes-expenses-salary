@@ -15,7 +15,7 @@ export class AuthenticationComponent {
   protected showNotice = false;
   protected passwordMismatch = false;
   protected readonly namePattern =
-  "^(?=(?:.*[A-Za-zА-Яа-яҐґЄєІіЇї]){3,})[A-Za-zА-Яа-яҐґЄєІіЇї\\s'-]+$";
+   "^(?=(?:.*[A-Za-zА-Яа-яҐґЄєІіЇї]){3,})[A-ZА-ЯҐЄІЇ][A-Za-zА-Яа-яҐґЄєІіЇї\\s'-]*$";
   private readonly router = inject(Router);
 
   protected get isRegister(): boolean {
@@ -26,24 +26,33 @@ export class AuthenticationComponent {
     this.showPassword = !this.showPassword;
   }
 
-submit(form: NgForm): void {
-  this.showNotice = false;
+  submit(form: NgForm): void {
+    this.showNotice = false;
 
-  const pwd = form.controls['password']?.value ?? '';
-  const confirm = form.controls['confirmPassword']?.value ?? '';
-  this.passwordMismatch = this.isRegister && pwd !== confirm;
+    const passwordControl = form.controls['password'];
+    const confirmControl = form.controls['confirmPassword'];
+    const pwd = passwordControl?.value ?? '';
+    const confirm = confirmControl?.value ?? '';
 
-  if (this.passwordMismatch) {
-    form.form.markAllAsTouched();
-    return;
+    this.passwordMismatch =
+      this.isRegister &&
+      !!passwordControl &&
+      !!confirmControl &&
+      passwordControl.valid &&
+      confirmControl.valid &&
+      pwd !== confirm;
+
+    if (this.passwordMismatch) {
+      form.form.markAllAsTouched();
+      return;
+    }
+
+    if (!form.valid) {
+      form.form.markAllAsTouched();
+      return;
+    }
+
+    this.showNotice = true;
   }
-
-  if (!form.valid) {
-    form.form.markAllAsTouched();
-    return;
-  }
-
-  this.showNotice = true;
-}
 
 }
