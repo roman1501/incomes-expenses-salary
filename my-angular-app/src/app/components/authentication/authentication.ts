@@ -107,7 +107,7 @@ clearMessages(): void {
 
         // 📨 Якщо акаунт створено, але сесії ще немає — очікуємо підтвердження email
         if (!res.session) {
-          this.serverSuccess = 'Check your inbox to confirm your email. Then log in.';
+          this.serverSuccess = 'Check your inbox to confirm your email.';
           this.canResend = true; // ← дати можливість надіслати ще раз
           this.lastTriedEmail = email || '';
         } else {
