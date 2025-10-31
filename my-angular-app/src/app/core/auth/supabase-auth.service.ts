@@ -8,6 +8,11 @@ interface SignUpParams {
   lastName?: string;
 }
 
+export interface UserProfile {
+  firstName: string | null;
+  lastName: string | null;
+}
+
 @Injectable({ providedIn: 'root' })
 export class SupabaseAuthService {
   private sb = getSupabaseClient();
@@ -81,5 +86,23 @@ async signUp({ email, password, firstName, lastName }: SignUpParams) {
       .upsert({ id, first_name: firstName, last_name: lastName }, { onConflict: 'id' });
     if (error) throw error;
   }
-  
+    async getProfile(userId: string): Promise<UserProfile | null> {
+    const { data, error } = await this.sb
+      .from('profiles')
+      .select('first_name, last_name')
+      .eq('id', userId)
+      .maybeSingle();
+
+    if (error) throw error;
+
+    if (!data) {
+      return null;
+    }
+
+    return {
+      firstName: (data['first_name'] as string | null) ?? null,
+      lastName: (data['last_name'] as string | null) ?? null
+    };
+  }
+
 }
