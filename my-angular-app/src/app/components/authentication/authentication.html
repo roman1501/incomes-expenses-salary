@@ -13,129 +13,95 @@
       </p>
     </header>
 
-        <form
-      #authForm="ngForm"
-      class="auth__form"
-      (ngSubmit)="submit(authForm)"
-    >
-      <ng-container *ngIf="isRegister">
-        <label class="auth__label" for="firstName">Name</label>
-        <input
-          id="firstName"
-          name="firstName"
-          type="text"
-          class="auth__input"
-          placeholder="Name"
-          required
-          autocomplete="given-name"
-          ngModel
-          #firstName="ngModel"
-          [pattern]="namePattern"
-        />
-        <p class="auth__error" *ngIf="firstName.invalid && firstName.touched">
-          Name must start with a capital letter, contain at least three letters, and mustn't
-          contain numbers or symbols.
-        </p>
+   <form #authForm="ngForm" class="auth__form" (ngSubmit)="submit(authForm)" novalidate>
+  <ng-container *ngIf="isRegister">
+    <label class="auth__label" for="firstName">Name</label>
+    <input id="firstName" name="firstName" type="text" class="auth__input"
+           placeholder="Name" required autocomplete="given-name"
+           inputmode="text" autocapitalize="words"
+           ngModel #firstName="ngModel" [pattern]="namePattern" />
+    <p class="auth__error" *ngIf="firstName.invalid && firstName.touched">
+      Name must start with a capital letter, contain at least three letters, and mustn't contain numbers or symbols.
+    </p>
 
-        <label class="auth__label" for="lastName">Surname</label>
-        <input
-          id="lastName"
-          name="lastName"
-          type="text"
-          class="auth__input"
-          placeholder="Surname"
-          required
-          autocomplete="family-name"
-          ngModel
-          #lastName="ngModel"
-          [pattern]="namePattern"
-        />
-        <p class="auth__error" *ngIf="lastName.invalid && lastName.touched">
-          Surname must start with a capital letter, contain at least three letters, and mustn't
-          contain numbers or symbols.
-        </p>
-      </ng-container>
+    <label class="auth__label" for="lastName">Surname</label>
+    <input id="lastName" name="lastName" type="text" class="auth__input"
+           placeholder="Surname" required autocomplete="family-name"
+           inputmode="text" autocapitalize="words"
+           ngModel #lastName="ngModel" [pattern]="namePattern" />
+    <p class="auth__error" *ngIf="lastName.invalid && lastName.touched">
+      Surname must start with a capital letter, contain at least three letters, and mustn't contain numbers or symbols.
+    </p>
+  </ng-container>
 
-      <label class="auth__label" for="email">Email address</label>
-      <input
-        id="email"
-        name="email"
-        type="email"
-        class="auth__input"
-        placeholder="you@example.com"
-        required
-        autocomplete="email"
-        email
-        ngModel
-        #email="ngModel"
-      />
-            <p class="auth__error" *ngIf="email?.invalid && email?.touched">
-        Enter a valid email address like name@example.com.
-      </p>
+  <label class="auth__label" for="email">Email address</label>
+  <input id="email" name="email" type="email" class="auth__input"
+         placeholder="you@example.com" required autocomplete="email"
+         email ngModel #email="ngModel" />
+  <p class="auth__error" *ngIf="email?.invalid && email?.touched">
+    Enter a valid email address like name@example.com.
+  </p>
+
+  <label class="auth__label" for="password">Password</label>
+  <div class="auth__password">
+    <input id="password" name="password"
+           [type]="showPassword ? 'text' : 'password'" class="auth__input"
+           placeholder="Enter your password" required minlength="8"
+           [attr.autocomplete]="isRegister ? 'new-password' : 'current-password'"
+           ngModel #password="ngModel" />
+    <button type="button" class="auth__toggle" (click)="togglePasswordVisibility()">
+      {{ showPassword ? 'Hide' : 'Show' }}
+    </button>
+  </div>
+  <p class="auth__error" *ngIf="password?.errors?.['minlength'] && password?.touched">
+    Password must be at least 8 characters long.
+  </p>
+
+  <ng-container *ngIf="isRegister">
+    <label class="auth__label" for="confirmPassword">Confirm password</label>
+    <input id="confirmPassword" name="confirmPassword" type="password" class="auth__input"
+           placeholder="Confirm your password" required minlength="8"
+           autocomplete="new-password" ngModel #confirmPassword="ngModel" />
+    <p class="auth__error" *ngIf="confirmPassword?.errors?.['minlength'] && confirmPassword?.touched">
+      Confirm password must be at least 8 characters long.
+    </p>
+    <p class="auth__error"
+       *ngIf="passwordMismatch && confirmPassword?.touched && !confirmPassword?.errors && !password?.errors">
+      Passwords must match.
+    </p>
+  </ng-container>
+
+  <!-- Повідомлення з бекенду: лишаємо один блок -->
+<!-- Повідомлення з бекенду -->
+<p class="auth__error" *ngIf="serverError" aria-live="polite" role="alert">{{ serverError }}</p>
+<p class="auth__success" *ngIf="serverSuccess" aria-live="polite" role="status">{{ serverSuccess }}</p>
 
 
-      <label class="auth__label" for="password">Password</label>
-      <div class="auth__password">
-        <input
-          id="password"
-          name="password"
-          [type]="showPassword ? 'text' : 'password'"
-          class="auth__input"
-          placeholder="Enter your password"
-          required
-          minlength="8"
-          autocomplete="new-password"
-          ngModel
-          #password="ngModel"
-        />
-        <button type="button" class="auth__toggle" (click)="togglePasswordVisibility()">
-          {{ showPassword ? 'Hide' : 'Show' }}
-        </button>
-      </div>
- <p class="auth__error" *ngIf="password?.errors?.['minlength'] && password?.touched">
-        Password must be at least 8 characters long.
-      </p>
-      <ng-container *ngIf="isRegister">
-        <label class="auth__label" for="confirmPassword">Confirm password</label>
-        <input
-          id="confirmPassword"
-          name="confirmPassword"
-          type="password"
-          class="auth__input"
-          placeholder="Confirm your password"
-          required
-          minlength="8"
-          autocomplete="new-password"
-          ngModel
-          #confirmPassword="ngModel"
-        />
-        <p
-          class="auth__error"
-          *ngIf="confirmPassword?.errors?.['minlength'] && confirmPassword?.touched"
-        >
-          Confirm password must be at least 8 characters long.
-        </p>
-        <p
-          class="auth__error"
-          *ngIf="passwordMismatch && confirmPassword?.touched && !confirmPassword?.errors && !password?.errors"
-        >
-          Passwords must match.
-        </p>
-      </ng-container>
+<button
+  type="button"
+  class="auth__resend"
+  *ngIf="canResend && !isBusy"
+  [disabled]="!lastTriedEmail"
+  (click)="resend(lastTriedEmail)"
+>
+  Resend confirmation email
+</button>
 
-      <button class="auth__submit" type="submit">Continue</button>
 
-      <p class="auth__notice" *ngIf="showNotice">
-        Authentication will be available soon. For now, this demo stops at the login screen.
-      </p>
-    </form>
+<button
+  class="auth__submit"
+  type="submit"
+  [disabled]="isBusy || authForm.invalid || passwordMismatch"
+>
+  {{ isBusy ? 'Please wait...' : 'Continue' }}
+</button>
+
+</form>
+
 
     <footer class="auth__footer">
       <span>{{ isRegister ? 'Already have an account?' : 'New here?' }}</span>
-      <a
-        [routerLink]="isRegister ? '/' : '/register'"
-        class="auth__link"
-      >
+      <a [routerLink]="isRegister ? '/' : '/register'" class="auth__link">
         {{ isRegister ? 'Log in' : 'Create an account' }}
       </a>
     </footer>
@@ -149,4 +115,3 @@
     </p>
   </aside>
 </section>
-

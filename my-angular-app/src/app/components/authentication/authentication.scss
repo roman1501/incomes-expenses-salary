@@ -126,6 +126,21 @@
   cursor: pointer;
   transition: transform 0.15s ease, box-shadow 0.2s ease;
 }
+.auth__resend {
+  background: rgba(99, 102, 241, 0.1);
+  border: none;
+  border-radius: 0.75rem;
+  color: #4f46e5;
+  padding: 0.6rem 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.auth__resend:hover {
+  background: rgba(99, 102, 241, 0.2);
+}
+
 
 .auth__submit:hover {
   transform: translateY(-1px);
