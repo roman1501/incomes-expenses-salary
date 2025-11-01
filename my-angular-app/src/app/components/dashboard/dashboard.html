@@ -10,17 +10,23 @@
       </div>
     </div>
     <nav class="dashboard__nav" aria-label="Primary">
-      <a class="dashboard__nav-link" href="#">Income</a>
-      <a class="dashboard__nav-link" href="#">Expenses</a>
-      <a class="dashboard__nav-link" href="#">Salary</a>
-      <a class="dashboard__nav-link" href="#">Family</a>
+      <a class="dashboard__nav-link" href="">Income</a>
+      <a class="dashboard__nav-link" href="">Expenses</a>
+      <a class="dashboard__nav-link" href="">Salary</a>
+      <a class="dashboard__nav-link" href="">Family</a>
     </nav>
     <div class="dashboard__profile" *ngIf="profile as userProfile">
       <div class="dashboard__profile-name">
-        <span class="dashboard__profile-label" [class.dashboard__profile-label--placeholder]="!userProfile.firstName">
+        <span
+          class="dashboard__profile-label"
+          [class.dashboard__profile-label--placeholder]="!userProfile.firstName"
+        >
           {{ userProfile.firstName || ' ' }}
         </span>
-        <span class="dashboard__profile-label" [class.dashboard__profile-label--placeholder]="!userProfile.lastName">
+        <span
+          class="dashboard__profile-label"
+          [class.dashboard__profile-label--placeholder]="!userProfile.lastName"
+        >
           {{ userProfile.lastName || ' ' }}
         </span>
       </div>
@@ -31,9 +37,10 @@
   <div class="dashboard__body">
     <h1 class="dashboard__headline">Dashboard</h1>
     <p>
-      This is a placeholder for the main application experience. Once authentication is connected, users
-      will land here to view their income, expenses, and salary insights.
+      This is a placeholder for the main application experience. Once authentication is connected,
+      users will land here to view their income, expenses, and salary insights.
     </p>
     <button class="dashboard__logout" (click)="logout()">Log out</button>
-  </div>т 
+  </div>
+  т
 </section>
