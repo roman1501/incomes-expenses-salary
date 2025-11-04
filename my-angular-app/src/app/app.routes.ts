@@ -1,5 +1,6 @@
 import { Routes } from '@angular/router';
-import { authGuard } from './core/auth/auth.guard'; // ✅ додаємо guard
+import { authGuard } from './core/auth/auth.guard'; 
+import { authCallbackGuard } from './core/auth/auth-callback.guard';
 
 // 👇 Функції для лінивого імпорту компонентів
 const loadAuthentication = () =>
@@ -29,9 +30,10 @@ export const routes: Routes = [
     loadComponent: loadDashboard,
     canActivate: [authGuard], // ✅ сторінка захищена guard’ом
   },
-  { 
-    path: 'auth/callback', 
+   {
+    path: 'auth/callback',
     loadComponent: loadAuthCallback,
+    canActivate: [authCallbackGuard],
   }, // <<< новий
   // якщо колись буде reset-password:
   // {

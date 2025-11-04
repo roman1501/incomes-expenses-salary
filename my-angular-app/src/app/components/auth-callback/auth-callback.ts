@@ -22,6 +22,12 @@ export class AuthCallbackComponent implements OnInit {
       const {
         data: { session },
       } = await this.sb.auth.getSession();
+      
+      if (!session) {
+        this.router.navigateByUrl('/');
+        return;
+      }
+
       // Невелика пауза, щоб користувач побачив повідомлення
       setTimeout(() => this.router.navigateByUrl('/'), 5000);
     } catch {
